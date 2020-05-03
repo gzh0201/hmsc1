@@ -29,12 +29,11 @@ def iPagination(params):
 
     total = int(params['total'])
     page_size = int( params['page_size'] )
-    page = int(params['page'])
-    total_pages = int(math.ceil(total/page_size))
+    page = int( params['page'] )
+    total_pages = int( math.ceil(total/page_size))
 
     if page <= 1:
         ret['is_prev'] = False
-
     if page >= total_pages:
         ret['is_next'] = False
     
@@ -45,12 +44,13 @@ def iPagination(params):
     ret['end'] = total_pages
 
     # 生成器
-    ret['range'] = range(ret['from'],ret['end']+1)
+    ret['range'] = range( ret['from'],ret['end'] + 1 )
 
     return ret
-    
-# 根据数据库中的某个字段（id)，查询出一个dict结果
-def genDictFilterField(db_model,select_filed,key_filed,id_list):
+
+
+# 根据数据库中的某个字段（id），查询出一个dict结果
+def getDictFilterField(db_model,select_filed,key_filed,id_list):
     ret = {}
     query = db_model.query
     if id_list and len(id_list) > 0:
@@ -64,9 +64,9 @@ def genDictFilterField(db_model,select_filed,key_filed,id_list):
         if getattr(item,key_filed) not in ret:
             ret[getattr(item,key_filed)] = []
 
-        ret[getattr(item,key_filede)].append(item)
+        ret[getattr(item,key_filed)].append(item)
 
-    return ret
+    return ret 
 
 def selectFilterObj(obj,field):
     ret = []
@@ -77,5 +77,8 @@ def selectFilterObj(obj,field):
             continue
         ret.append(getattr(item,field))
     return ret
+
+
+
 
 

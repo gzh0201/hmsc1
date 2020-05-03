@@ -84,6 +84,6 @@ var account_set_ops = {
     }
 };
 
-$(document).ready(function(){
+$(document).ready( function(){
     account_set_ops.init();
-});
+} );

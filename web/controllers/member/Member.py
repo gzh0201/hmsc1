@@ -1,14 +1,13 @@
+# -*- coding: utf-8 -*-
 from flask import Blueprint,request,redirect,jsonify
 from common.libs.Helper import ops_render,iPagination,getCurrentDate
 from common.libs.UrlManager import UrlManager
 from common.models.member.Member import Member
-from common.models.member.MemberComment import MemberComment
+from common.models.member.MemberComments import MemberComment
 from application import app,db
+router_member = Blueprint( 'member_page',__name__ )
 
-
-router_member = Blueprint("member_page",__name__)
-
-@router_member.route("/index")
+@router_member.route( "/index" )
 def index():
     resp_data = {}
     req = request.values
@@ -17,6 +16,7 @@ def index():
 
     if 'mix_kw' in req:
         query = query.filter( Member.nickname.ilike( "%{0}%".format( req['mix_kw'] ) ) )
+
     if 'status' in req and int( req['status'] ) > -1 :
         query = query.filter( Member.status == int( req['status'] ) )
 
@@ -127,7 +127,6 @@ def comment():
     for item in comment_list:
         item.member_info = member_info
     resp_data['pages'] = pages
-    
     return ops_render( "member/comment.html",resp_data )
 
 
@@ -149,7 +148,7 @@ def removeOrRecover():
         resp['code'] = -1
         resp['msg'] = "操作有误"
         return jsonify(resp)
-
+    
     member_info = Member.query.filter_by(id=id).first()
     if not member_info:
         resp['code'] = -1
@@ -159,7 +158,7 @@ def removeOrRecover():
         member_info.status = 0
     elif acts == "recover":
         member_info.status = 1
-
+        
     member_info.updated_time = getCurrentDate()
     db.session.add(member_info)
     db.session.commit()

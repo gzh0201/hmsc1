@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from application import db
 
 
+
 class Member(db.Model):
     __tablename__ = 'member'
 
